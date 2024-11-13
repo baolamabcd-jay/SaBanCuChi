@@ -1,4 +1,3 @@
-// Tạo navigation component
 function createNav() {
     const navHTML = `
         <nav class="museum-nav">
@@ -14,9 +13,9 @@ function createNav() {
                 <div class="nav-links">
                     <a href="index.html" ${window.location.pathname.includes('index.html') ? 'class="active"' : ''}>Trang chủ</a>
                     <a href="about.html" ${window.location.pathname.includes('about.html') ? 'class="active"' : ''}>Giới thiệu</a>
-                    <a href="exhibition.html" ${window.location.pathname.includes('exhibition.html') ? 'class="active"' : ''}>Triển lãm</a>
+                    <a href="exhibition.html" ${window.location.pathname.includes('exhibition.html') ? 'class="active"' : ''}>Phương tiện</a>
                     <a href="simulation.html" ${window.location.pathname.includes('simulation.html') ? 'class="active"' : ''}>Mô phỏng</a>
-                    <a href="#">###</a>
+                    <a href="team.html" ${window.location.pathname.includes('team.html') ? 'class="active"' : ''}>Nhóm thực hiện</a>
                 </div>
             </div>
         </nav>
@@ -65,39 +64,6 @@ window.closeMenu = function() {
     hamburger.style.display = 'block';
 }
 
-// Xử lý filter cho trang thiết bị
-function handleEquipmentFilter() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const equipmentItems = document.querySelectorAll('.equipment-item');
-
-    if (!filterButtons.length || !equipmentItems.length) return;
-
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Cập nhật active button
-            filterButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            const filterValue = btn.getAttribute('data-filter');
-
-            // Lọc và hiển thị items
-            equipmentItems.forEach(item => {
-                const shouldShow = filterValue === 'all' || 
-                                 item.getAttribute('data-category') === filterValue;
-                
-                item.style.display = shouldShow ? 'block' : 'none';
-                
-                if (shouldShow) {
-                    // Reset và thêm animation
-                    item.style.animation = 'none';
-                    item.offsetHeight; // Trigger reflow
-                    item.style.animation = 'fadeIn 0.5s ease forwards';
-                }
-            });
-        });
-    });
-}
-
 // Animation cho số liệu thống kê
 function animateNumbers() {
     const stats = document.querySelectorAll('.stat-number');
@@ -126,7 +92,6 @@ function animateNumbers() {
 document.addEventListener('DOMContentLoaded', () => {
     createNav();
     initNavigation();
-    handleEquipmentFilter();
 
     // Xử lý animation số liệu thống kê
     const statsSection = document.querySelector('.stats-section');
@@ -160,36 +125,3 @@ const fadeIn = `
 const style = document.createElement('style');
 style.textContent = fadeIn;
 document.head.appendChild(style);
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Đảm bảo các elements đã tồn tại
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const vehicles = document.querySelectorAll('.vehicle-item');
-
-    if (filterButtons && vehicles) {
-        filterButtons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Xóa active class từ tất cả buttons
-                filterButtons.forEach(b => b.classList.remove('active'));
-                // Thêm active class cho button được click
-                this.classList.add('active');
-                
-                const filterValue = this.getAttribute('data-filter');
-                console.log('Filter value:', filterValue); // Debug
-
-                vehicles.forEach(vehicle => {
-                    const category = vehicle.getAttribute('data-category');
-                    console.log('Vehicle category:', category); // Debug
-                    
-                    if (filterValue === 'all' || category === filterValue) {
-                        vehicle.classList.remove('hide');
-                    } else {
-                        vehicle.classList.add('hide');
-                    }
-                });
-            });
-        });
-    } else {
-        console.error('Filter buttons or vehicles not found'); // Debug
-    }
-});
